@@ -1,0 +1,29 @@
+.privacy_btns{
+    margin-bottom: 30px;
+    display: flex;
+    gap: 0px;
+    background-color: #b5b5b5;
+    width: fit-content;
+    border-radius: 20px;
+    button{
+        border-radius: 20px !important;
+        border:none;
+    }
+    .active{
+        background-color: #46ca55 !important;
+    }
+    .inactive{
+        background-color: transparent !important;
+    }
+}
+.privacy_form{
+    max-width: 500px;
+}
+.otp{
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    input{
+        width: 42px;
+    }
+}
