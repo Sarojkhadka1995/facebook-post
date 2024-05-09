@@ -1,5 +1,5 @@
 import { IHttp } from '@/types/http.interface';
-import { IDataToPost } from './../types/index';
+import { IDataToPost } from '../types/index';
 import axios from 'axios';
 
 export const postFacebook = async (

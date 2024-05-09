@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 //Config
-import { config } from '../../../config';
+import { config } from '../../config';
 
 //Components
-import { toastError } from '@/pages/shared/Toaster';
+import { toastError } from '@/shared/Toaster';
 
 interface IProps {
   type: string;

@@ -1,11 +1,11 @@
-import { Button, Form, ListGroup, Spinner } from "react-bootstrap";
-import FacebookConnection from "../FacebookConnection";
-import { useEffect, useState } from "react";
-import SharingOptions from "../SharingOptions";
-import { IDataToPost, IPostContent } from "./types";
-import Loading from "@/pages/shared/Loading";
-import { postFacebook } from "./services/facebookSharing.service";
-import styles from "./favebookSharing.module.scss";
+import { Button, Form, ListGroup, Spinner } from 'react-bootstrap';
+import FacebookConnection from '../FacebookConnection';
+import { useEffect, useState } from 'react';
+import SharingOptions from '../SharingOptions';
+import { IDataToPost, IPostContent } from './types';
+import Loading from '@/shared/Loading';
+import { postFacebook } from './services/facebookSharing.service';
+import styles from './favebookSharing.module.scss';
 
 const FacebookSharing = () => {
   const [pageList, setPageList] = useState<any>(null);
@@ -15,7 +15,7 @@ const FacebookSharing = () => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const [postContent, setPostContent] = useState<IPostContent>({
-    text: "",
+    text: '',
     image: null,
   });
 
@@ -61,12 +61,12 @@ const FacebookSharing = () => {
   const isPostButtonDisabled = () => {
     return (
       selectedPage.length === 0 ||
-      (postContent.text === "" && postContent.image === null)
+      (postContent.text === '' && postContent.image === null)
     );
   };
 
   useEffect(() => {
-    const data = localStorage.getItem("facebookData");
+    const data = localStorage.getItem('facebookData');
     if (pageList === null && data !== null) {
       setPageList(() => JSON.parse(data));
     }
@@ -96,19 +96,17 @@ const FacebookSharing = () => {
                 <div className={`${styles.share_right}`}>
                   <h5>Pages</h5>
                   {pageList?.data?.length > 0 &&
-            pageList?.data?.map((page: any, index: number) => (
-              <ListGroup.Item key={`pageList-${index}`}>
-                <Form.Check
-                  type={'checkbox'}
-                  label={`${page?.name}`}
-                  id={`pageList-${index}`}
-                  name={'pages'}
-                  onChange={() => selectPage(page)}
-                />
-              </ListGroup.Item>
-            ))}
-
-                  
+                    pageList?.data?.map((page: any, index: number) => (
+                      <ListGroup.Item key={`pageList-${index}`}>
+                        <Form.Check
+                          type={'checkbox'}
+                          label={`${page?.name}`}
+                          id={`pageList-${index}`}
+                          name={'pages'}
+                          onChange={() => selectPage(page)}
+                        />
+                      </ListGroup.Item>
+                    ))}
                 </div>
               </div>
             </div>
@@ -124,7 +122,7 @@ const FacebookSharing = () => {
       ) : (
         <FacebookConnection
           type="facebook"
-          btnText={"+ Add Facebook Connection"}
+          btnText={'+ Add Facebook Connection'}
           textClass={`btn btn-dark  mb-3 `}
           setPageList={setPageList}
         />
