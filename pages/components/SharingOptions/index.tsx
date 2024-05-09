@@ -1,8 +1,8 @@
-import React, { FC, Suspense, lazy, useState } from 'react';
+import React, { FC, Suspense, lazy, useState } from "react";
 
 // STYLES
-import Image from 'next/image';
-import { IPostContent } from '../FacebookSharing/types';
+import Image from "next/image";
+import { IPostContent } from "../FacebookSharing/types";
 
 interface IProps {
   setPostContent: (arg0: IPostContent) => void;
@@ -12,7 +12,7 @@ const SharingOptions: FC<IProps> = ({ setPostContent, postContent }) => {
   const [imageUploadLoading, setImageUploadLoading] = useState<boolean>(false);
   const [imageError, setImageError] = useState({
     error: false,
-    message: '',
+    message: "",
   });
 
   const [imageData, setImageData] = useState<any>(null);
@@ -23,18 +23,18 @@ const SharingOptions: FC<IProps> = ({ setPostContent, postContent }) => {
     if (e.target.files && e.target.files[0]) {
       validateFileType(e.target.files[0]);
     }
-    e.target.value = '';
+    e.target.value = "";
   };
 
   const validateFileType = (file: any) => {
     const fileType = file?.type;
-    const validImageTypes = ['image/jpeg', 'image/png'];
+    const validImageTypes = ["image/jpeg", "image/png"];
     if (validImageTypes.some((e) => e === fileType)) {
       validateFileSize(file);
     } else {
       setImageError({
         error: true,
-        message: 'Invalid image format',
+        message: "Invalid image format",
       });
     }
   };
@@ -42,38 +42,46 @@ const SharingOptions: FC<IProps> = ({ setPostContent, postContent }) => {
   const validateFileSize = (file: any) => {
     const fileSize = file?.size;
     if (fileSize > 5242880) {
-      setImageError({ error: true, message: 'Image cannot be more than 5MB' });
+      setImageError({ error: true, message: "Image cannot be more than 5MB" });
     } else {
-      setImageError({ error: false, message: '' });
+      setImageError({ error: false, message: "" });
       setPostContent({ ...postContent, image: file });
       setImageData(file);
     }
   };
 
-  const handleTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTextInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setPostContent({ ...postContent, text: e.target.value });
   };
 
   return (
     <div>
-      <label className="form-label mb-0 me-2">Post text</label>
-      <div className="w-100 me-2">
-        <input
-          type="text"
-          className={`form-control`}
+      <div className="w-100 me-2 form-group mb-3">
+        <label className="form-label mb-0 mb-2">Post text</label>
+        <textarea
+          name=""
+          id=""
           placeholder="Post"
-          value={postContent?.text}
+          cols={30}
+          rows={5}
+          className="form-control"
           onChange={handleTextInput}
+          value={postContent?.text}
+        ></textarea>
+      </div>
+      <div className={`file-upload`}>
+        <label htmlFor="fileUpload" className="btn btn-success mb-3">+ Upload Image</label>
+        <input
+          type="file"
+          accept="image/x-png,image/jpeg"
+          onChange={handleUploadLogoChange}
+          name="companyInfo-logo-upload-input"
+          id="fileUpload"
+          hidden
         />
       </div>
-
-      <label>Image</label>
-      <input
-        type="file"
-        accept="image/x-png,image/jpeg"
-        onChange={handleUploadLogoChange}
-        name="companyInfo-logo-upload-input"
-      />
       <div className="image-preview">
         {imageData && (
           <Image

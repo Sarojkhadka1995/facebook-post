@@ -1,1 +1,14 @@
 @import '~bootstrap/scss/bootstrap';
+
+
+.file-upload{
+    label{
+        display: inline-block;
+        color: white;
+        padding: 4px 16px;
+        cursor: pointer;
+        margin-top: 1rem;
+        font-size: 16px !important;
+        font-weight: 400 !important;
+      }
+}

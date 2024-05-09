@@ -1,10 +1,11 @@
-import { Button, Form, ListGroup } from 'react-bootstrap';
-import FacebookConnection from '../FacebookConnection';
-import { useEffect, useState } from 'react';
-import SharingOptions from '../SharingOptions';
-import { IDataToPost, IPostContent } from './types';
-import Loading from '@/pages/shared/Loading';
-import { postFacebook } from './services/facebookSharing.service';
+import { Button, Form, ListGroup, Spinner } from "react-bootstrap";
+import FacebookConnection from "../FacebookConnection";
+import { useEffect, useState } from "react";
+import SharingOptions from "../SharingOptions";
+import { IDataToPost, IPostContent } from "./types";
+import Loading from "@/pages/shared/Loading";
+import { postFacebook } from "./services/facebookSharing.service";
+import styles from "./favebookSharing.module.scss";
 
 const FacebookSharing = () => {
   const [pageList, setPageList] = useState<any>(null);
@@ -14,7 +15,7 @@ const FacebookSharing = () => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const [postContent, setPostContent] = useState<IPostContent>({
-    text: '',
+    text: "",
     image: null,
   });
 
@@ -60,31 +61,41 @@ const FacebookSharing = () => {
   const isPostButtonDisabled = () => {
     return (
       selectedPage.length === 0 ||
-      (postContent.text === '' && postContent.image === null)
+      (postContent.text === "" && postContent.image === null)
     );
   };
 
   useEffect(() => {
-    const data = localStorage.getItem('facebookData');
+    const data = localStorage.getItem("facebookData");
     if (pageList === null && data !== null) {
       setPageList(() => JSON.parse(data));
     }
   }, []);
 
   return (
-    <>
+    <div className={`${styles.top_wrapper}`}>
       <div>
-        <span>Facebook connection</span>
+        <h1 className={`${styles.title}`}>Facebook connection</h1>
       </div>
       {pageList?.access_token ? (
         <>
-          <span onClick={disconnect}>Disconnect</span>
-          <SharingOptions
-            setPostContent={setPostContent}
-            postContent={postContent}
-          />
-          <h2>Pages</h2>
-          {pageList?.data?.length > 0 &&
+          <button onClick={disconnect} className="btn btn-danger ms-auto">
+            Disconnect
+          </button>
+          <div className={`${styles.share_container}`}>
+            <div className="row g-3">
+              <div className="col-8">
+                <div className={`${styles.share_left}`}>
+                  <SharingOptions
+                    setPostContent={setPostContent}
+                    postContent={postContent}
+                  />
+                </div>
+              </div>
+              <div className="col-4">
+                <div className={`${styles.share_right}`}>
+                  <h5>Pages</h5>
+                  {pageList?.data?.length > 0 &&
             pageList?.data?.map((page: any, index: number) => (
               <ListGroup.Item key={`pageList-${index}`}>
                 <Form.Check
@@ -97,22 +108,28 @@ const FacebookSharing = () => {
               </ListGroup.Item>
             ))}
 
-          <Button
-            disabled={isSaving || isPostButtonDisabled()}
-            onClick={postData}
-          >
-            Post {isSaving && <Loading />}
-          </Button>
+                  
+                </div>
+              </div>
+            </div>
+            <Button
+              disabled={isSaving || isPostButtonDisabled()}
+              onClick={postData}
+              className={`${styles.post_btn}`}
+            >
+              Post {isSaving && <Spinner animation="grow" size="sm" />}
+            </Button>
+          </div>
         </>
       ) : (
         <FacebookConnection
           type="facebook"
-          btnText={'+ Add Facebook Connection'}
+          btnText={"+ Add Facebook Connection"}
           textClass={`btn btn-dark  mb-3 `}
           setPageList={setPageList}
         />
       )}
-    </>
+    </div>
   );
 };
 
