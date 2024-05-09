@@ -4,8 +4,12 @@ import { useEffect, useState } from 'react';
 import SharingOptions from '../SharingOptions';
 import { IDataToPost, IPostContent } from './types';
 import Loading from '@/shared/Loading';
-import { postFacebook } from './services/facebookSharing.service';
+import {
+  postPhotoAndCaption,
+  postTextOnly,
+} from './services/facebookSharing.service';
 import styles from './favebookSharing.module.scss';
+import { toastError, toastSuccess } from '@/shared/Toaster';
 
 const FacebookSharing = () => {
   const [pageList, setPageList] = useState<any>(null);
@@ -28,29 +32,34 @@ const FacebookSharing = () => {
         return prev.filter((_, index) => index !== existingIndex);
       } else {
         // Otherwise, add the selected page to the array
-        return [...prev, { id: page.id, page_token: page.access_token }];
+        return [
+          ...prev,
+          { id: page.id, page_token: page.access_token, page_name: page.name },
+        ];
       }
     });
   };
 
   const postData = async () => {
-    const dataToPost: IDataToPost = {
-      user_id: pageList.userID,
-      access_token: pageList.access_token,
-      pages: selectedPage,
-      text: postContent?.text,
-    };
-
     setIsSaving(true);
-    const [response, error] = await postFacebook(
-      dataToPost,
-      postContent?.image
-    );
+    selectedPage?.forEach(async (page) => {
+      let response, error;
+      if (postContent?.image) {
+        [response, error] = await postPhotoAndCaption(
+          page,
+          postContent?.text,
+          postContent?.image
+        );
+      } else {
+        [response, error] = await postTextOnly(page, postContent?.text);
+      }
+      if (response) {
+        toastSuccess(`Successfully posted in ${page?.page_name}`);
+      } else {
+        toastError(`Failed to post in ${page?.page_name}`);
+      }
+    });
     setIsSaving(false);
-    if (response) {
-    }
-    if (error) {
-    }
   };
 
   const disconnect = () => {

@@ -6,7 +6,7 @@ export interface IDataToPost {
   image?: any | null;
 }
 
-interface IPages {
+export interface IPages {
   id: string;
   page_token: string;
 }
