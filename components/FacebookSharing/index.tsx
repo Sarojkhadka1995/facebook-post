@@ -49,9 +49,32 @@ const FacebookSharing = () => {
     });
   };
 
+  // const postData = async () => {
+  //   setIsSaving(true);
+  //   selectedPage?.forEach(async (page) => {
+  //     let response, error;
+  //     if (postContent?.image) {
+  //       [response, error] = await postPhotoAndCaption(
+  //         page,
+  //         postContent?.text,
+  //         postContent?.image
+  //       );
+  //     } else {
+  //       [response, error] = await postTextOnly(page, postContent?.text);
+  //     }
+  //     if (response) {
+  //       toastSuccess(`Successfully posted in ${page?.page_name}`);
+  //     } else {
+  //       toastError(`Failed to post in ${page?.page_name}`);
+  //     }
+  //   });
+  //   setIsSaving(false);
+  // };
+
   const postData = async () => {
     setIsSaving(true);
-    selectedPage?.forEach(async (page) => {
+
+    for (const page of selectedPage) {
       let response, error;
       if (postContent?.image) {
         [response, error] = await postPhotoAndCaption(
@@ -62,12 +85,14 @@ const FacebookSharing = () => {
       } else {
         [response, error] = await postTextOnly(page, postContent?.text);
       }
+
       if (response) {
         toastSuccess(`Successfully posted in ${page?.page_name}`);
       } else {
         toastError(`Failed to post in ${page?.page_name}`);
       }
-    });
+    }
+
     setIsSaving(false);
   };
 
@@ -105,7 +130,15 @@ const FacebookSharing = () => {
             Disconnect
           </button>
           {showPageFeed?.show ? (
-            <Feedlist pageData={showPageFeed?.page} />
+            <Feedlist
+              pageData={showPageFeed?.page}
+              goBack={() =>
+                setShowPageFeed({
+                  show: false,
+                  page: null,
+                })
+              }
+            />
           ) : (
             <div className={`${styles.share_container}`}>
               <div className="row g-3">

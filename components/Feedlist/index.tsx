@@ -10,8 +10,9 @@ import Card from 'react-bootstrap/Card';
 
 interface IProps {
   pageData: any;
+  goBack: () => void;
 }
-const Feedlist: FC<IProps> = ({ pageData }) => {
+const Feedlist: FC<IProps> = ({ pageData, goBack }) => {
   const [feedList, setFeedList] = useState<{ data: any[]; paging: string }>({
     data: [],
     paging: '',
@@ -63,6 +64,7 @@ const Feedlist: FC<IProps> = ({ pageData }) => {
 
   return (
     <div className={`feedlist`}>
+      <Button onClick={goBack}>Go Back</Button>
       <h2 className="mb-4">FeedList of {pageData?.name}</h2>
       <div className={`feedlist_item`}>
         <Accordion activeKey={activeAccordionKey}>
