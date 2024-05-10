@@ -28,7 +28,7 @@ const FacebookSharing = () => {
     show: boolean;
     page: any;
   }>({
-    show: true,
+    show: false,
     page: null,
   });
 
@@ -99,7 +99,7 @@ const FacebookSharing = () => {
       <div>
         <h1 className={`${styles.title}`}>Facebook connection</h1>
       </div>
-      {!pageList?.access_token ? (
+      {pageList?.access_token ? (
         <>
           <button onClick={disconnect} className="btn btn-danger ms-auto">
             Disconnect
@@ -123,14 +123,16 @@ const FacebookSharing = () => {
                     {pageList?.data?.length > 0 &&
                       pageList?.data?.map((page: any, index: number) => (
                         <ListGroup.Item key={`pageList-${index}`}>
-                          <Form.Check
-                            type={'checkbox'}
-                            label={`${page?.name}`}
-                            id={`pageList-${index}`}
-                            name={'pages'}
-                            onChange={() => selectPage(page)}
-                          />
-                          <span onClick={() => viewPage(page)}>View</span>
+                          <div className="d-flex space-between">
+                            <Form.Check
+                              type={'checkbox'}
+                              label={`${page?.name}`}
+                              id={`pageList-${index}`}
+                              name={'pages'}
+                              onChange={() => selectPage(page)}
+                            />
+                            <Button onClick={() => viewPage(page)}>View</Button>
+                          </div>
                         </ListGroup.Item>
                       ))}
                   </div>
