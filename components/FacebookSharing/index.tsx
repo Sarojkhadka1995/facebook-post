@@ -123,7 +123,7 @@ const FacebookSharing = () => {
                     {pageList?.data?.length > 0 &&
                       pageList?.data?.map((page: any, index: number) => (
                         <ListGroup.Item key={`pageList-${index}`}>
-                          <div className="d-flex space-between">
+                          <div className="d-flex space-between gap-3 align-item-center mb-3">
                             <Form.Check
                               type={'checkbox'}
                               label={`${page?.name}`}
