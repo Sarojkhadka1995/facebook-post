@@ -12,3 +12,21 @@
         font-weight: 400 !important;
       }
 }
+
+.feedlist{
+  width: 100%;
+  max-width: 800px;
+  .card{
+    margin-bottom: 16px;
+    &-header{
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    ul{
+      li{
+        list-style: none;
+      }
+    }
+  }
+}

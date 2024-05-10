@@ -28,7 +28,7 @@ const FacebookSharing = () => {
     show: boolean;
     page: any;
   }>({
-    show: false,
+    show: true,
     page: null,
   });
 
@@ -99,7 +99,7 @@ const FacebookSharing = () => {
       <div>
         <h1 className={`${styles.title}`}>Facebook connection</h1>
       </div>
-      {pageList?.access_token ? (
+      {!pageList?.access_token ? (
         <>
           <button onClick={disconnect} className="btn btn-danger ms-auto">
             Disconnect

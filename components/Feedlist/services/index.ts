@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const getPageFeedList = async (payload: IPages) => {
   try {
-    debugger;
+    
     const response = await axios.get(
       `https://graph.facebook.com/${payload?.id}/feed?access_token=${payload?.page_token}&limit=25`
     );
