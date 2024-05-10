@@ -2,7 +2,7 @@ import { Button, Form, ListGroup, Spinner } from 'react-bootstrap';
 import FacebookConnection from '../FacebookConnection';
 import { useEffect, useState } from 'react';
 import SharingOptions from '../SharingOptions';
-import { IDataToPost, IPostContent } from './types';
+import { IDataToPost, IPages, IPostContent } from './types';
 import Loading from '@/shared/Loading';
 import {
   postPhotoAndCaption,
@@ -10,6 +10,7 @@ import {
 } from './services/facebookSharing.service';
 import styles from './favebookSharing.module.scss';
 import { toastError, toastSuccess } from '@/shared/Toaster';
+import Feedlist from '../Feedlist';
 
 const FacebookSharing = () => {
   const [pageList, setPageList] = useState<any>(null);
@@ -21,6 +22,14 @@ const FacebookSharing = () => {
   const [postContent, setPostContent] = useState<IPostContent>({
     text: '',
     image: null,
+  });
+
+  const [showPageFeed, setShowPageFeed] = useState<{
+    show: boolean;
+    page: any;
+  }>({
+    show: false,
+    page: null,
   });
 
   //Functions
@@ -74,6 +83,10 @@ const FacebookSharing = () => {
     );
   };
 
+  const viewPage = (page: any) => {
+    setShowPageFeed({ show: true, page: page });
+  };
+
   useEffect(() => {
     const data = localStorage.getItem('facebookData');
     if (pageList === null && data !== null) {
@@ -91,42 +104,47 @@ const FacebookSharing = () => {
           <button onClick={disconnect} className="btn btn-danger ms-auto">
             Disconnect
           </button>
-          <div className={`${styles.share_container}`}>
-            <div className="row g-3">
-              <div className="col-8">
-                <div className={`${styles.share_left}`}>
-                  <SharingOptions
-                    setPostContent={setPostContent}
-                    postContent={postContent}
-                  />
+          {showPageFeed?.show ? (
+            <Feedlist pageData={showPageFeed?.page} />
+          ) : (
+            <div className={`${styles.share_container}`}>
+              <div className="row g-3">
+                <div className="col-8">
+                  <div className={`${styles.share_left}`}>
+                    <SharingOptions
+                      setPostContent={setPostContent}
+                      postContent={postContent}
+                    />
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div className={`${styles.share_right}`}>
+                    <h5>Pages</h5>
+                    {pageList?.data?.length > 0 &&
+                      pageList?.data?.map((page: any, index: number) => (
+                        <ListGroup.Item key={`pageList-${index}`}>
+                          <Form.Check
+                            type={'checkbox'}
+                            label={`${page?.name}`}
+                            id={`pageList-${index}`}
+                            name={'pages'}
+                            onChange={() => selectPage(page)}
+                          />
+                          <span onClick={() => viewPage(page)}>View</span>
+                        </ListGroup.Item>
+                      ))}
+                  </div>
                 </div>
               </div>
-              <div className="col-4">
-                <div className={`${styles.share_right}`}>
-                  <h5>Pages</h5>
-                  {pageList?.data?.length > 0 &&
-                    pageList?.data?.map((page: any, index: number) => (
-                      <ListGroup.Item key={`pageList-${index}`}>
-                        <Form.Check
-                          type={'checkbox'}
-                          label={`${page?.name}`}
-                          id={`pageList-${index}`}
-                          name={'pages'}
-                          onChange={() => selectPage(page)}
-                        />
-                      </ListGroup.Item>
-                    ))}
-                </div>
-              </div>
+              <Button
+                disabled={isSaving || isPostButtonDisabled()}
+                onClick={postData}
+                className={`${styles.post_btn}`}
+              >
+                Post {isSaving && <Spinner animation="grow" size="sm" />}
+              </Button>
             </div>
-            <Button
-              disabled={isSaving || isPostButtonDisabled()}
-              onClick={postData}
-              className={`${styles.post_btn}`}
-            >
-              Post {isSaving && <Spinner animation="grow" size="sm" />}
-            </Button>
-          </div>
+          )}
         </>
       ) : (
         <FacebookConnection
