@@ -2,13 +2,12 @@ import { Button, Form, ListGroup, Spinner } from 'react-bootstrap';
 import FacebookConnection from '../FacebookConnection';
 import { useEffect, useState } from 'react';
 import SharingOptions from '../SharingOptions';
-import { IDataToPost, IPages, IPostContent } from './types';
-import Loading from '@/shared/Loading';
+import { IPostContent } from './types';
 import {
   postPhotoAndCaption,
   postTextOnly,
 } from './services/facebookSharing.service';
-import styles from './favebookSharing.module.scss';
+import styles from './facebookSharing.module.scss';
 import { toastError, toastSuccess } from '@/shared/Toaster';
 import Feedlist from '../Feedlist';
 
@@ -125,9 +124,9 @@ const FacebookSharing = () => {
   }, []);
 
   return (
-    <div className={`${styles.top_wrapper}`}>
+    <div className={`top_wrapper`}>
       <div>
-        <h1 className={`${styles.title}`}>Facebook Connection</h1>
+        <h1 className={`title`}>Facebook Connection</h1>
       </div>
       {pageList?.access_token ? (
         <>
@@ -145,10 +144,10 @@ const FacebookSharing = () => {
               }
             />
           ) : (
-            <div className={`${styles.share_container}`}>
+            <div className={`share_container`}>
               <div className="row g-3">
                 <div className="col-8">
-                  <div className={`${styles.share_left}`}>
+                  <div className={`share_left`}>
                     <SharingOptions
                       setPostContent={setPostContent}
                       postContent={postContent}
@@ -156,7 +155,7 @@ const FacebookSharing = () => {
                   </div>
                 </div>
                 <div className="col-4">
-                  <div className={`${styles.share_right}`}>
+                  <div className={`share_right`}>
                     <h5>Pages</h5>
                     {pageList?.data?.length > 0 &&
                       pageList?.data?.map((page: any, index: number) => (
@@ -185,7 +184,7 @@ const FacebookSharing = () => {
               <Button
                 disabled={isSaving || isPostButtonDisabled()}
                 onClick={postData}
-                className={`${styles.post_btn}`}
+                className={`post_btn`}
               >
                 Post {isSaving && <Spinner animation="grow" size="sm" />}
               </Button>
