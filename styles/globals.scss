@@ -1,32 +1,39 @@
 @import '~bootstrap/scss/bootstrap';
 
-
-.file-upload{
-    label{
-        display: inline-block;
-        color: white;
-        padding: 4px 16px;
-        cursor: pointer;
-        margin-top: 1rem;
-        font-size: 16px !important;
-        font-weight: 400 !important;
-      }
+.file-upload {
+  label {
+    display: inline-block;
+    color: white;
+    padding: 4px 16px;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+  }
 }
 
-.feedlist{
+.feedlist {
   width: 100%;
   max-width: 800px;
-  .card{
+  .card {
     margin-bottom: 16px;
-    &-header{
+    &-header {
       display: flex;
       justify-content: space-between;
       gap: 16px;
     }
-    ul{
-      li{
+    ul {
+      li {
         list-style: none;
       }
     }
   }
+}
+
+.view-btn {
+  font-size: 14px;
+}
+
+.li-dot {
+  list-style: disc !important;
 }

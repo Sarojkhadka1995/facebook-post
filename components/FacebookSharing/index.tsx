@@ -88,6 +88,10 @@ const FacebookSharing = () => {
 
       if (response) {
         toastSuccess(`Successfully posted in ${page?.page_name}`);
+        setPostContent({
+          text: '',
+          image: null,
+        });
       } else {
         toastError(`Failed to post in ${page?.page_name}`);
       }
@@ -117,12 +121,13 @@ const FacebookSharing = () => {
     if (pageList === null && data !== null) {
       setPageList(() => JSON.parse(data));
     }
+    setSelectedPage([]);
   }, []);
 
   return (
     <div className={`${styles.top_wrapper}`}>
       <div>
-        <h1 className={`${styles.title}`}>Facebook connection</h1>
+        <h1 className={`${styles.title}`}>Facebook Connection</h1>
       </div>
       {pageList?.access_token ? (
         <>
@@ -156,7 +161,7 @@ const FacebookSharing = () => {
                     {pageList?.data?.length > 0 &&
                       pageList?.data?.map((page: any, index: number) => (
                         <ListGroup.Item key={`pageList-${index}`}>
-                          <div className="d-flex space-between gap-3 align-item-center mb-3">
+                          <div className="d-flex space-between gap-3 align-items-center mb-3">
                             <Form.Check
                               type={'checkbox'}
                               label={`${page?.name}`}
@@ -164,7 +169,13 @@ const FacebookSharing = () => {
                               name={'pages'}
                               onChange={() => selectPage(page)}
                             />
-                            <Button onClick={() => viewPage(page)}>View</Button>
+                            <Button
+                              variant="secondary"
+                              className="view-btn"
+                              onClick={() => viewPage(page)}
+                            >
+                              View Feed
+                            </Button>
                           </div>
                         </ListGroup.Item>
                       ))}
