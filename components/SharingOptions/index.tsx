@@ -1,8 +1,9 @@
-import React, { FC, Suspense, lazy, useState } from "react";
+import React, { FC, Suspense, lazy, useState } from 'react';
 
 // STYLES
-import Image from "next/image";
-import { IPostContent } from "../FacebookSharing/types";
+import Image from 'next/image';
+import { IPostContent } from '../FacebookSharing/types';
+import { BsTrash, BsTrash2 } from 'react-icons/bs';
 
 interface IProps {
   setPostContent: (arg0: IPostContent) => void;
@@ -12,7 +13,7 @@ const SharingOptions: FC<IProps> = ({ setPostContent, postContent }) => {
   const [imageUploadLoading, setImageUploadLoading] = useState<boolean>(false);
   const [imageError, setImageError] = useState({
     error: false,
-    message: "",
+    message: '',
   });
 
   const [imageData, setImageData] = useState<any>(null);
@@ -23,18 +24,18 @@ const SharingOptions: FC<IProps> = ({ setPostContent, postContent }) => {
     if (e.target.files && e.target.files[0]) {
       validateFileType(e.target.files[0]);
     }
-    e.target.value = "";
+    e.target.value = '';
   };
 
   const validateFileType = (file: any) => {
     const fileType = file?.type;
-    const validImageTypes = ["image/jpeg", "image/png"];
+    const validImageTypes = ['image/jpeg', 'image/png'];
     if (validImageTypes.some((e) => e === fileType)) {
       validateFileSize(file);
     } else {
       setImageError({
         error: true,
-        message: "Invalid image format",
+        message: 'Invalid image format',
       });
     }
   };
@@ -42,9 +43,9 @@ const SharingOptions: FC<IProps> = ({ setPostContent, postContent }) => {
   const validateFileSize = (file: any) => {
     const fileSize = file?.size;
     if (fileSize > 5242880) {
-      setImageError({ error: true, message: "Image cannot be more than 5MB" });
+      setImageError({ error: true, message: 'Image cannot be more than 5MB' });
     } else {
-      setImageError({ error: false, message: "" });
+      setImageError({ error: false, message: '' });
       setPostContent({ ...postContent, image: file });
       setImageData(file);
     }
@@ -72,7 +73,9 @@ const SharingOptions: FC<IProps> = ({ setPostContent, postContent }) => {
         ></textarea>
       </div>
       <div className={`file-upload`}>
-        <label htmlFor="fileUpload" className="btn btn-success mb-3">+ Upload Image</label>
+        <label htmlFor="fileUpload" className="btn btn-success mb-3">
+          + Upload Image
+        </label>
         <input
           type="file"
           accept="image/x-png,image/jpeg"
@@ -84,12 +87,19 @@ const SharingOptions: FC<IProps> = ({ setPostContent, postContent }) => {
       </div>
       <div className="image-preview">
         {imageData && (
-          <Image
-            src={URL.createObjectURL(imageData)}
-            alt="Uploaded"
-            width={100}
-            height={100}
-          />
+          <div className={'d-flex gap3'}>
+            <Image
+              src={URL.createObjectURL(imageData)}
+              alt="Uploaded"
+              width={100}
+              height={100}
+            />
+            <BsTrash
+              fill="red"
+              className={'cursor-pointer'}
+              onClick={() => setImageData(null)}
+            />
+          </div>
         )}
       </div>
     </div>
