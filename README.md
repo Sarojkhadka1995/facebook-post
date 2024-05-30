@@ -2,20 +2,21 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First install node modules.
+1. First install node modules.
 
 Run
 npm install
 
+2. Add environment variables as mentioned in sample file
 
-To start development server
+3. To start development server
 
 npm run dev
 
-To Build,
+4. To Build,
 
 npm run build
 
-To run production server
+5. To run production server
 
 npm run start
